@@ -1,3 +1,24 @@
+/*
+   Copyright (C) 2021 SFini
+
+   This program is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+/**
+  * @file EspCamSend.ino
+  *
+  * Main module with setup() and loop()
+  */
 
 #include "Battery.h"
 #include "Camera.h"
@@ -13,6 +34,7 @@
 #define DEEP_SLEEP_TIME (60 * 60) // Deep sleep: 1 hour
 // #define DEEP_SLEEP_TIME (10 * 60) // 10 minutes
 
+/** Helper function to set the RTC clock. */
 void SetClock()
 {
    rtc_date_t date;
@@ -25,6 +47,11 @@ void SetClock()
    bmm8563_setTime(&date);
 }
 
+/** 
+ *  Main function to get the greyscale imgage, analyse and compare it with the previous
+ *  and if it is different and not at night take a high resolution image and send it
+ *  with additional information to the raspberry server.
+ */
 void CaptureCompareAndSend()
 {
    StartCameraGreyScale();
@@ -35,11 +62,9 @@ void CaptureCompareAndSend()
       int frameSum  = GetFrameSum();
 
       // Only when changed and not at night
-      /*
       if (frameDiff <= 100) { // nothing changed
          IncrementEqualCount();
       } else if (frameAvg >= 5) { // only at daylight
-      */
          float voltage  = 0.0;
          int   capacity = 0;
 
@@ -58,11 +83,12 @@ void CaptureCompareAndSend()
             }
             StopWiFi();
          }
-      // }
+      }
    }
    StopCamera();
 }
 
+/** setup() function. Starts everything and go to deep sleep. */
 void setup()
 {
    Serial.begin(115200);
@@ -84,10 +110,13 @@ void setup()
    DeepSleep(DEEP_SLEEP_TIME);
 }
 
+/** 
+ *  loop() function. 
+ *  Should never reached
+ *  This is only for checking
+ */
 void loop()
 {
-   // Should never reached
-   // only for checking
    if (StartWiFi()) {
       SendInfo(0.0, 0, 0, 0, 0, 0);
       StopWiFi();

@@ -1,3 +1,24 @@
+/*
+   Copyright (C) 2021 SFini
+
+   This program is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+/**
+  * @file Camera.h
+  *
+  * Helper function for camera handling.
+  */
 #pragma once
 #include "ArduinoNvs.h"
 #include "esp_camera.h"
@@ -20,6 +41,7 @@ camera_fb_t *jpg_fb = NULL;
 camera_config_t camera_config;
 
 
+/** Set the m5stack camery settings */
 void SetCameraConfig(camera_config_t &config, pixformat_t pixel_format, framesize_t frame_size)
 {
    Serial.println("SetCameraConfig");
@@ -49,6 +71,7 @@ void SetCameraConfig(camera_config_t &config, pixformat_t pixel_format, framesiz
    config.fb_count     = 1;
 }
 
+/** Flip the camera image */
 void FlipCamera(bool brighter)
 {
    sensor_t *s = esp_camera_sensor_get();
@@ -62,6 +85,7 @@ void FlipCamera(bool brighter)
    }
 }
 
+/** Setup greyscale camera image */
 bool StartCameraGreyScale()
 {
    Serial.println("StartCameraGreyScale");
@@ -77,6 +101,7 @@ bool StartCameraGreyScale()
    return false;
 }
 
+/** Setup hight resolution color image */
 bool StartCameraJpg()
 {
    Serial.println("StartCameraJpg");
@@ -92,6 +117,7 @@ bool StartCameraJpg()
    return false;
 }
 
+/** Trace the greyscale image analyse data */
 void PrintFrame(float frame[H][W]) 
 {
    Serial.println("PrintFrame");
@@ -105,6 +131,7 @@ void PrintFrame(float frame[H][W])
    }
 }
 
+/** Capture the greyscale image */
 bool CaptureGreyScaleImage()
 {
    Serial.println("CaptureGreyScaleImage");
@@ -142,6 +169,7 @@ bool CaptureGreyScaleImage()
    return true;
 }
 
+/** Capture the color image */
 bool CaptureJpgImage()
 {
    Serial.println("CaptureJpgImage");
@@ -159,6 +187,7 @@ bool CaptureJpgImage()
    return true;
 }
 
+/** Release the image buffer */
 bool ReleaseJpgImage()
 {
    Serial.println("ReleaseJpgImage");
@@ -170,6 +199,7 @@ bool ReleaseJpgImage()
    return true;
 }
 
+/** Get the previous analysed information from NVS */
 bool ReadOldIFrameFromNVS()
 {
    Serial.println("ReadOldIFrameFromNVS");
@@ -181,6 +211,7 @@ bool ReadOldIFrameFromNVS()
    return true;
 }
 
+/** Write the new analysed information to NVS */
 bool WriteNewFrameToNVS()
 {
    Serial.println("WriteNewFrameToNVS");
@@ -192,6 +223,7 @@ bool WriteNewFrameToNVS()
    return true;
 }
 
+/** Calculate the frame difference */
 int GetFrameDiff()
 {
    Serial.println("GetFrameDiff");
@@ -207,6 +239,7 @@ int GetFrameDiff()
    return ret;
 }
 
+/** Calculate the average pixel density */
 int GetFrameAvg()
 {
    Serial.println("GetCurrentFrameSum");
@@ -226,6 +259,7 @@ int GetFrameAvg()
    return ret;
 }
 
+/** Calculate the pixel summery */
 int GetFrameSum()
 {
    Serial.println("GetCurrentFrameSum");
@@ -241,6 +275,7 @@ int GetFrameSum()
    return ret;
 }
 
+/** Stop the camera to save energy */
 bool StopCamera()
 {
    Serial.println("StopCamera");

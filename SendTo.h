@@ -1,3 +1,25 @@
+/*
+   Copyright (C) 2021 SFini
+
+   This program is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+/**
+  * @file SendTo.h
+  *
+  * Helper function to send the data to the raspberry server.
+  */
+
 #pragma once
 #include <WiFi.h>
 #include <WiFiClient.h> 
@@ -5,6 +27,7 @@
 
 WiFiClient client;
 
+/** Increment the amount of wakups */
 void IncrementWakeupCount()
 {
    int wakeupCount = NVS.getInt("wakeupCount");
@@ -13,6 +36,7 @@ void IncrementWakeupCount()
    NVS.setInt("wakeupCount", wakeupCount);
 }
 
+/** Increment the amount of equal images */
 void IncrementEqualCount()
 {
    int equalCount = NVS.getInt("equalCount");
@@ -21,6 +45,7 @@ void IncrementEqualCount()
    NVS.setInt("equalCount", equalCount);
 }
 
+/** Returns the time in which the system was active over all deep sleep phases */
 int64_t GetAllActiveTime()
 {
    int64_t allActiveTime = NVS.getInt("activeTime");
@@ -28,6 +53,7 @@ int64_t GetAllActiveTime()
    return allActiveTime;
 }
 
+/** Added the current active time to the overall time. */
 void IncrementAllActiveTime()
 {
    int64_t activeTime = GetAllActiveTime();
@@ -35,6 +61,7 @@ void IncrementAllActiveTime()
    NVS.setInt("activeTime", activeTime);
 }
 
+/** Send the image to the server. */
 bool SendImage()
 {
    bool ret = false;
@@ -118,6 +145,7 @@ bool SendImage()
    return ret;
 }
 
+/** Send the calculated and environment data to the server. */
 bool SendInfo(float voltage, int capacity, int frameDiff, int frameAvg, int frameSum, int rssi)
 {
    Serial.println("SendInfo");

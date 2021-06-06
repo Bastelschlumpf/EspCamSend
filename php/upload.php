@@ -5,9 +5,9 @@
 
 $target_dir    = "uploads/";
 $datum         = mktime(date('H')+0, date('i'), date('s'), date('m'), date('d'), date('y'));
-$target_file   = $target_dir . date('Y.m.d_H:i:s_', $datum) . basename($_FILES["imageFile"]["name"]);
-$uploadOk      = 1;
+$target_file   = $target_dir . date('Y.m.d__H:i:s__', $datum) . basename($_FILES["imageFile"]["name"]);
 $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+$uploadOk      = 1;
 
 // Check if file already exists
 if (file_exists($target_file)) {

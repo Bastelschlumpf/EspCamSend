@@ -54,7 +54,7 @@ bool SendImage()
          Serial.println(getBody);
       } else {
          Serial.println("Connection successful!");    
-         String head = "--RandomNerdTutorials\r\nContent-Disposition: form-data; name=\"imageFile\"; filename=\"esp32-cam.jpg\"\r\nContent-Type: image/jpeg\r\n\r\n";
+         String head = "--RandomNerdTutorials\r\nContent-Disposition: form-data; name=\"imageFile\"; filename=\"EspCamSend.jpg\"\r\nContent-Type: image/jpeg\r\n\r\n";
          String tail = "\r\n--RandomNerdTutorials--\r\n";
          
          uint32_t imageLen = jpg_fb->len;
@@ -161,7 +161,7 @@ bool SendInfo(float voltage, int capacity, int frameDiff, int frameAvg, int fram
    } else {
       sendCount++;
       Serial.println("Connection successful!");    
-      String head = "--RandomNerdTutorials\r\nContent-Disposition: form-data; name=\"imageFile\"; filename=\"esp32-cam.txt\"\r\nContent-Type: text/plain\r\n\r\n";
+      String head = "--RandomNerdTutorials\r\nContent-Disposition: form-data; name=\"imageFile\"; filename=\"EspCamSend.txt\"\r\nContent-Type: text/plain\r\n\r\n";
       String tail = "\r\n--RandomNerdTutorials--\r\n";
       
       uint32_t extraLen = head.length() + tail.length();

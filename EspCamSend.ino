@@ -10,8 +10,8 @@
 #include "WiFi.h"
 
 
-// #define DEEP_SLEEP_TIME (60 * 60) // Deep sleep: 1 hour
-#define DEEP_SLEEP_TIME (10 * 60) // 10 minutes
+#define DEEP_SLEEP_TIME (60 * 60) // Deep sleep: 1 hour
+// #define DEEP_SLEEP_TIME (10 * 60) // 10 minutes
 
 void SetClock()
 {
@@ -35,9 +35,11 @@ void CaptureCompareAndSend()
       int frameSum  = GetFrameSum();
 
       // Only when changed and not at night
+      /*
       if (frameDiff <= 100) { // nothing changed
          IncrementEqualCount();
       } else if (frameAvg >= 5) { // only at daylight
+      */
          float voltage  = 0.0;
          int   capacity = 0;
 
@@ -56,7 +58,7 @@ void CaptureCompareAndSend()
             }
             StopWiFi();
          }
-      }
+      // }
    }
    StopCamera();
 }
@@ -79,7 +81,7 @@ void setup()
    IncrementAllActiveTime();
    NVS.close();
    StopBatteryOutput();
-   DeepSleep();
+   DeepSleep(DEEP_SLEEP_TIME);
 }
 
 void loop()

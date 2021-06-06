@@ -10,7 +10,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-   <title>ESP32-CAM Photo Gallery</title>
+   <title>EspCamSend Gallery</title>
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <style>
       .flex-container {
@@ -24,7 +24,7 @@
    </style>
 </head>
 <body>
-   <h2>ESP32-CAM Photo Gallery</h2>
+   <h2>EspCamSend Gallery</h2>
    <?php
       // Image extensions
       $image_extensions = array("png","jpg","jpeg","gif");

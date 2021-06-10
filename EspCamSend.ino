@@ -31,7 +31,8 @@
 #include "WiFi.h"
 
 
-#define DEEP_SLEEP_TIME (60 * 60) // Deep sleep: 1 hour
+// #define DEEP_SLEEP_TIME (60 * 60) // Deep sleep: 1 hour
+#define DEEP_SLEEP_TIME (30 * 60) // 30 minutes
 // #define DEEP_SLEEP_TIME (10 * 60) // 10 minutes
 
 /** Helper function to set the RTC clock. */
@@ -56,15 +57,19 @@ void CaptureCompareAndSend()
 {
    StartCameraGreyScale();
    if (CaptureGreyScaleImage()) {
-      ReadOldIFrameFromNVS();
-      int frameDiff = GetFrameDiff();
-      int frameAvg  = GetFrameAvg();
-      int frameSum  = GetFrameSum();
+      ReadOldFrameFromNVS();
+      float frameDiff    = GetFrameDiff();
+      float frameAvg     = GetFrameAvg();
+      float frameSum     = GetFrameSum();
+      bool  hasDiff      = frameDiff > 100;
+      bool  daylight     = frameAvg  >= 5;
+      bool  onlyWithDiff = false;
+      bool  onlyDaylight = false; 
 
       // Only when changed and not at night
-      if (frameDiff <= 100) { // nothing changed
+      if (onlyWithDiff && !hasDiff) { // nothing changed
          IncrementEqualCount();
-      } else if (frameAvg >= 5) { // only at daylight
+      } else if (!onlyDaylight || daylight) { // only at daylight
          float voltage  = 0.0;
          int   capacity = 0;
 

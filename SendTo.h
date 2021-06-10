@@ -146,7 +146,7 @@ bool SendImage()
 }
 
 /** Send the calculated and environment data to the server. */
-bool SendInfo(float voltage, int capacity, int frameDiff, int frameAvg, int frameSum, int rssi)
+bool SendInfo(float voltage, int capacity, float frameDiff, float frameAvg, float frameSum, int rssi)
 {
    Serial.println("SendInfo");
 
@@ -168,9 +168,9 @@ bool SendInfo(float voltage, int capacity, int frameDiff, int frameAvg, int fram
    info += "CurrentTime: " + String(millis())         + " ms\r\n";
    info += "Battery:     " + String(voltage)          + "V " + "(" + String(capacity) + " %)\r\n";
    info += "Rssi:        " + String(rssi)             + " %\r\n";
-   info += "FrameDiff:   " + String(frameDiff)        + "\r\n";
-   info += "FrameAvg:    " + String(frameAvg)         + "\r\n";
-   info += "FrameSum:    " + String(frameSum)         + "\r\n";
+   info += "FrameDiff:   " + String(frameDiff, 2)     + "\r\n";
+   info += "FrameAvg:    " + String(frameAvg, 2)      + "\r\n";
+   info += "FrameSum:    " + String(frameSum, 2)      + "\r\n";
    
    if (idx++ > 20) {
       idx = 0;

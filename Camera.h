@@ -200,7 +200,7 @@ bool ReleaseJpgImage()
 }
 
 /** Get the previous analysed information from NVS */
-bool ReadOldIFrameFromNVS()
+bool ReadOldFrameFromNVS()
 {
    Serial.println("ReadOldIFrameFromNVS");
 
@@ -224,29 +224,29 @@ bool WriteNewFrameToNVS()
 }
 
 /** Calculate the frame difference */
-int GetFrameDiff()
+float GetFrameDiff()
 {
    Serial.println("GetFrameDiff");
    
-   int ret = 0;
+   float ret = 0.0;
    
    for (int y = 0; y < H; y++) {
       for (int x = 0; x < W; x++) {
          ret += abs(current_frame[y][x] - old_frame[y][x]) ;
       }
    }
-   Serial.println("   -> Diff: " + String(ret));
+   Serial.println("   -> Diff: " + String(ret, 2));
    return ret;
 }
 
 /** Calculate the average pixel density */
-int GetFrameAvg()
+float GetFrameAvg()
 {
    Serial.println("GetCurrentFrameSum");
    
-   int sum   = 0;
-   int count = 0;
-   int ret   = 0;
+   float sum   = 0.0;
+   int   count = 0;
+   float ret   = 0.0;
    
    for (int y = 0; y < H; y++) {
       for (int x = 0; x < W; x++) {
@@ -254,24 +254,24 @@ int GetFrameAvg()
          count++;
       }
    }
-   ret = (int) (sum / count);
-   Serial.println("   -> Avg: " + String(ret));
+   ret = sum / (float) count;
+   Serial.println("   -> Avg: " + String(ret, 2));
    return ret;
 }
 
 /** Calculate the pixel summery */
-int GetFrameSum()
+float GetFrameSum()
 {
    Serial.println("GetCurrentFrameSum");
    
-   int ret = 0;
+   float ret = 0.0;
    
    for (int y = 0; y < H; y++) {
       for (int x = 0; x < W; x++) {
          ret += current_frame[y][x];
       }
    }
-   Serial.println("   -> Sum: " + String(ret));
+   Serial.println("   -> Sum: " + String(ret, 2));
    return ret;
 }
 

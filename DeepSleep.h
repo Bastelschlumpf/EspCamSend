@@ -34,7 +34,13 @@ void DeepSleep(int sec)
    delay(100);
 
    // workaround when on usb
-   esp_sleep_enable_timer_wakeup(sec * 1000000);
+   /*
+   esp_err_t err = esp_sleep_enable_timer_wakeup((uint64_t) (sec * 1000000ULL));
+   if (err != ESP_OK) {
+      Serial.println("Error on esp_sleep_enable_timer_wakeup [" + String(err) + "]");
+      delay(100);
+   }
+   */
    // go to deep sleep
    esp_deep_sleep_start();
 }

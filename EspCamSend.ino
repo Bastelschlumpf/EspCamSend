@@ -31,9 +31,12 @@
 #include "WiFi.h"
 
 
-// #define DEEP_SLEEP_TIME (60 * 60) // Deep sleep: 1 hour
-#define DEEP_SLEEP_TIME (30 * 60) // 30 minutes
-// #define DEEP_SLEEP_TIME (10 * 60) // 10 minutes
+#define DEEP_SLEEP_TIME (60 * 60) // Deep sleep: 1 hour
+// #define DEEP_SLEEP_TIME (45 * 60) // Deep sleep: 45 minutes
+// #define DEEP_SLEEP_TIME (30 * 60) // 30 minutes
+// #define DEEP_SLEEP_TIME (1 * 60) // 1 minute
+// #define DEEP_SLEEP_TIME 2700
+// #define DEEP_SLEEP_TIME 3600
 
 /** Helper function to set the RTC clock. */
 void SetClock()
@@ -61,10 +64,10 @@ void CaptureCompareAndSend()
       float frameDiff    = GetFrameDiff();
       float frameAvg     = GetFrameAvg();
       float frameSum     = GetFrameSum();
-      bool  hasDiff      = frameDiff > 100;
-      bool  daylight     = frameAvg  >= 5;
+      bool  hasDiff      = frameDiff >  100;
+      bool  daylight     = frameAvg  >=   2.2;
       bool  onlyWithDiff = false;
-      bool  onlyDaylight = false; 
+      bool  onlyDaylight = true; 
 
       // Only when changed and not at night
       if (onlyWithDiff && !hasDiff) { // nothing changed
@@ -97,11 +100,12 @@ void CaptureCompareAndSend()
 void setup()
 {
    Serial.begin(115200);
-   
+
    NVS.begin();  
    // NVS.eraseAll();
    InitBattery();
    bmm8563_init();
+   bmm8563_setDateIRQ(1, 0, 0, 0);
    bmm8563_setTimerIRQ(DEEP_SLEEP_TIME);
    pinMode(CAMERA_LED_GPIO, OUTPUT);
    digitalWrite(CAMERA_LED_GPIO, HIGH);
@@ -122,6 +126,7 @@ void setup()
  */
 void loop()
 {
+   Serial.println("loop()");
    if (StartWiFi()) {
       SendInfo(0.0, 0, 0, 0, 0, 0);
       StopWiFi();

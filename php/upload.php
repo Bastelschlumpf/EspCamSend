@@ -40,14 +40,14 @@ if ($uploadOk == 0) {
   }
 }
 
-// Remove files older than 7 day
+// Remove files older than 2 day
 if (is_dir($target_dir)) {
    $path = './uploads/';
    $files = glob($path.'/*.*');
 
    foreach($files as $file) {
       if (is_file($file)) {
-         if (time() - filemtime($file) > 7 * 24 * 60 * 60) {
+         if (time() - filemtime($file) > 2 * 24 * 60 * 60) {
             echo $file;
             unlink($file);
          }

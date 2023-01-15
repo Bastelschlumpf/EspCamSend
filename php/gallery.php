@@ -25,6 +25,7 @@
 </head>
 <body>
    <h2>EspCamSend Gallery</h2>
+   <a href="gallery.php?deleteall">Delete all files</a>
    <?php
       // Image extensions
       $image_extensions = array("png","jpg","jpeg","gif");
@@ -32,12 +33,24 @@
       // Check delete HTTP GET request - remove images
       if (isset($_GET["delete"])) {
          $imageFileType = strtolower(pathinfo($_GET["delete"],PATHINFO_EXTENSION));
-         if (file_exists($_GET["delete"]) && ($imageFileType == "jpg" || $imageFileType == "png" || $imageFileType == "jpeg"|| $imageFileType == "txt") ) {
+         if (file_exists($_GET["delete"])) {
             echo "File found and deleted: " .  $_GET["delete"];
             unlink($_GET["delete"]);
          } else {
             echo 'File not found - <a href="gallery.php">refresh</a>';
          }
+      }
+      if (isset($_GET["deleteall"])) {
+         $path = './uploads/';
+         $files = glob($path.'/*.*');
+
+         foreach($files as $file) {
+            if (is_file($file)) {
+               echo $file;
+               unlink($file);
+            }
+         }
+         header("Location: gallery.php");
       }
 
       // Target directory
